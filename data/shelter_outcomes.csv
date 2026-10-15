@@ -1,0 +1,15 @@
+animal_type,outcome,count
+Dogs,Reclaimed,3203
+Dogs,Returned,727
+Dogs,Rehomed,6839
+Dogs,Currently in Care,1672
+Dogs,Transferred,529
+Dogs,Euthanased,2768
+Dogs,Other,114
+Cats,Reclaimed,979
+Cats,Returned,381
+Cats,Rehomed,16445
+Cats,Currently in Care,2128
+Cats,Transferred,298
+Cats,Euthanased,5089
+Cats,Other,319

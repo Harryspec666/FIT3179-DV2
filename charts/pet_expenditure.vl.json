@@ -1,0 +1,193 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Annual Pet Expenditure in Australia (2025)",
+    "subtitle": "Average annual household spending by pet type (AUD)"
+  },
+
+  "width": "container",
+  "height": 360,
+
+  "data": {
+    "url": "data/pet_expenditure.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+
+  "encoding": {
+    "y": {
+      "field": "pet_type",
+      "type": "nominal",
+      "sort": [
+        "Dogs",
+        "Small mammals",
+        "Cats",
+        "Reptiles",
+        "Birds",
+        "Fish"
+      ],
+      "title": null
+    }
+  },
+
+  "layer": [
+    {
+      "transform": [
+        {
+          "fold": [
+            "food_cost",
+            "vet_cost",
+            "other_cost"
+          ],
+          "as": ["expense_type", "amount"]
+        },
+        {
+          "calculate": "datum.expense_type === 'food_cost' ? 'Food' : datum.expense_type === 'vet_cost' ? 'Veterinary services' : 'Other costs'",
+          "as": "expense_label"
+        },
+        {
+          "calculate": "datum.expense_type === 'food_cost' ? 1 : datum.expense_type === 'vet_cost' ? 2 : 3",
+          "as": "stack_order"
+        }
+      ],
+
+      "mark": {
+        "type": "bar",
+        "size": 28
+      },
+
+      "encoding": {
+        "x": {
+          "field": "amount",
+          "type": "quantitative",
+          "stack": "zero",
+          "title": "Average Annual Household Expenditure (AUD)",
+          "scale": {
+            "domain": [0, 3000]
+          },
+          "axis": {
+            "values": [
+              0, 500, 1000, 1500,
+              2000, 2500, 3000
+            ],
+            "format": ",.0f"
+          }
+        },
+
+        "color": {
+          "field": "expense_label",
+          "type": "nominal",
+          "title": "Expense Category",
+          "sort": [
+            "Food",
+            "Veterinary services",
+            "Other costs"
+          ],
+          "scale": {
+            "domain": [
+              "Food",
+              "Veterinary services",
+              "Other costs"
+            ],
+            "range": [
+              "#4C78A8",
+              "#E49F52",
+              "#75A99C"
+            ]
+          }
+        },
+
+        "order": {
+          "field": "stack_order",
+          "type": "quantitative",
+          "sort": "ascending"
+        },
+
+        "tooltip": [
+          {
+            "field": "pet_type",
+            "type": "nominal",
+            "title": "Pet Type"
+          },
+          {
+            "field": "expense_label",
+            "type": "nominal",
+            "title": "Expense Category"
+          },
+          {
+            "field": "amount",
+            "type": "quantitative",
+            "title": "Expense (AUD)",
+            "format": ",.0f"
+          },
+          {
+            "field": "total_annual_cost",
+            "type": "quantitative",
+            "title": "Annual Total (AUD)",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "calculate": "'A$' + format(datum.total_annual_cost, ',.0f')",
+          "as": "total_label"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 7,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#253447"
+      },
+
+      "encoding": {
+        "x": {
+          "field": "total_annual_cost",
+          "type": "quantitative"
+        },
+
+        "text": {
+          "field": "total_label",
+          "type": "nominal"
+        },
+
+        "tooltip": [
+          {
+            "field": "pet_type",
+            "title": "Pet Type"
+          },
+          {
+            "field": "total_annual_cost",
+            "type": "quantitative",
+            "title": "Annual Total (AUD)",
+            "format": ",.0f"
+          }
+        ]
+      }
+    }
+  ],
+
+  "config": {
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    },
+    "legend": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    },
+    "view": {
+      "stroke": null
+    }
+  }
+}

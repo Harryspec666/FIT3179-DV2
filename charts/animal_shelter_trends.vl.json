@@ -1,0 +1,195 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Change in RSPCA Animals Received (2020–21 to 2024–25)",
+    "subtitle": "Percentage change compared with the 2020–21 financial year"
+  },
+
+  "width": "container",
+  "height": 280,
+
+  "data": {
+    "url": "data/shelter_trends.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "fiscal_year_end": "number",
+        "dogs": "number",
+        "cats": "number",
+        "non_dog_cat_animals": "number",
+        "total_animals": "number"
+      }
+    }
+  },
+
+  "transform": [
+    {
+      "fold": [
+        "total_animals",
+        "dogs",
+        "cats",
+        "non_dog_cat_animals"
+      ],
+      "as": ["animal_category", "animal_count"]
+    },
+
+    {
+      "calculate": "datum.animal_category === 'total_animals' ? 'All animals' : datum.animal_category === 'dogs' ? 'Dogs' : datum.animal_category === 'cats' ? 'Cats' : 'Other animals'",
+      "as": "animal_type"
+    },
+
+    {
+      "window": [
+        {
+          "op": "first_value",
+          "field": "animal_count",
+          "as": "baseline_count"
+        }
+      ],
+      "sort": [
+        {
+          "field": "fiscal_year_end",
+          "order": "ascending"
+        }
+      ],
+      "groupby": ["animal_type"],
+      "frame": [null, null]
+    },
+
+    {
+      "calculate": "(datum.animal_count - datum.baseline_count) / datum.baseline_count * 100",
+      "as": "change_pct"
+    },
+
+    {
+      "calculate": "datum.change_pct === 0 ? '0%' : (datum.change_pct > 0 ? '+' : '') + format(datum.change_pct, '.1f') + '%'",
+      "as": "change_label"
+    }
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "fiscal_year_end",
+      "type": "ordinal",
+      "sort": "ascending",
+      "title": "Financial Year (Ending Year)",
+      "axis": {
+        "labelAngle": 0,
+        "labelFontSize": 12
+      }
+    },
+
+    "y": {
+      "field": "animal_type",
+      "type": "nominal",
+      "sort": [
+        "All animals",
+        "Dogs",
+        "Cats",
+        "Other animals"
+      ],
+      "title": null
+    },
+
+    "tooltip": [
+      {
+        "field": "animal_type",
+        "type": "nominal",
+        "title": "Animal Category"
+      },
+      {
+        "field": "fiscal_year_end",
+        "type": "ordinal",
+        "title": "Financial Year Ending"
+      },
+      {
+        "field": "animal_count",
+        "type": "quantitative",
+        "title": "Animals Received",
+        "format": ",.0f"
+      },
+      {
+        "field": "baseline_count",
+        "type": "quantitative",
+        "title": "2020–21 Baseline",
+        "format": ",.0f"
+      },
+      {
+        "field": "change_pct",
+        "type": "quantitative",
+        "title": "Change from Baseline (%)",
+        "format": "+.1f"
+      }
+    ]
+  },
+
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "white",
+        "strokeWidth": 3
+      },
+
+      "encoding": {
+        "color": {
+          "field": "change_pct",
+          "type": "quantitative",
+          "title": "Change from 2020–21 (%)",
+          "scale": {
+            "domain": [-45, 0, 10],
+            "range": [
+              "#2A5B89",
+              "#EFF3F7",
+              "#D7974E"
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "gradientLength": 220
+          }
+        }
+      }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "fontWeight": "bold"
+      },
+
+      "encoding": {
+        "text": {
+          "field": "change_label",
+          "type": "nominal"
+        },
+
+        "color": {
+          "condition": {
+            "test": "datum.change_pct <= -25",
+            "value": "white"
+          },
+          "value": "#253447"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    },
+    "legend": {
+      "labelFontSize": 12,
+      "titleFontSize": 12
+    },
+    "view": {
+      "stroke": null
+    }
+  }
+}

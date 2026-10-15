@@ -1,0 +1,7 @@
+pet_type,food_cost,vet_cost,other_cost,total_annual_cost
+Dogs,1090,168,1262,2520
+Cats,884,154,618,1656
+Fish,172,92,211,475
+Birds,285,82,188,555
+Small mammals,947,240,908,2095
+Reptiles,354,692,273,1319

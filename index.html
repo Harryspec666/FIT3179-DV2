@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Pets and Animal Welfare in Australia</title>
+
+  <!-- Vega-Lite and Vega Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Pets and Animal Welfare in Australia</h1>
+    <p>Understanding how Australians care for animals</p>
+  </header>
+
+  <main>
+
+    <!-- SECTION 1: PET OWNERSHIP -->
+    <section>
+
+      <h2>Section 1: Pet Ownership</h2>
+
+      <p>
+        Pet ownership plays an important role in Australian
+        society. This section explores how pet ownership has
+        changed over the past decade and which types of pets
+        are most popular among Australian households.
+      </p>
+
+      <!-- Chart 1: Pet Ownership Trends -->
+      <div id="pet-ownership-chart"></div>
+
+      <p>
+        According to Animal Medicines Australia, the proportion
+        of Australian households owning at least one pet
+        increased from 62% in 2016 to 73% in 2025,
+        representing an increase of 11 percentage points.
+        This suggests that pet ownership has become
+        increasingly common among Australian households.
+      </p>
+
+      <p class="source">
+        Source: Animal Medicines Australia,
+        Pets in Australia 2025, page 6.
+      </p>
+
+
+      <!-- Chart 2: Pet Types -->
+      <div id="pet-types-chart"></div>
+
+      <p>
+        Dogs are the most commonly owned pets in Australia,
+        with 49.3% of households owning at least one dog
+        in 2025, followed by cats at 33.6%.
+        Although fish are owned by a smaller proportion
+        of households, they account for the largest
+        estimated number of individual pets.
+      </p>
+
+      <p class="source">
+        Source: Animal Medicines Australia,
+        Pets in Australia 2025, page 7.
+      </p>
+
+    </section>
+
+
+    <!-- SECTION 2: VETERINARY CARE -->
+    <section>
+
+      <h2>Section 2: Veterinary Care &amp; Responsibility</h2>
+
+      <p>
+        Owning a pet involves more than companionship.
+        Australian households also spend money on food,
+        veterinary services and other aspects of pet care.
+        These expenses vary across different pet types.
+      </p>
+
+      <!-- Chart 3: Pet Expenditure -->
+      <div id="pet-expenditure-chart"></div>
+
+      <p>
+        In 2025, Australian households with dogs reported
+        the highest average annual spending among the
+        surveyed pet types, at A$2,520 per household.
+        Households with cats spent an average of A$1,656.
+
+        Reptile-owning households reported the highest
+        average veterinary service spending at A$692,
+        although the reptile-owner survey sample was
+        relatively small.
+
+        These figures represent average expenditure
+        per household, rather than per individual animal.
+      </p>
+
+      <p class="source">
+        Source: Animal Medicines Australia,
+        Pets in Australia 2025, page 42
+        (PDF page 45).
+
+        Note: Other costs are calculated by subtracting
+        food and veterinary service expenses from
+        the reported total annual household expenditure.
+      </p>
+
+
+      <!-- Chart 4: Vaccination Rates -->
+      <div id="pet-vaccination-chart"></div>
+
+      <p>
+        Vaccination is an important part of preventative
+        pet healthcare. According to the 2025 survey,
+        96% of dogs and 90% of cats had been vaccinated
+        at least once.
+
+        However, the proportions vaccinated within the
+        past 12 months were lower, at 77% for dogs and
+        66% for cats.
+
+        These figures describe different time periods
+        and do not necessarily indicate whether pets
+        are overdue for vaccination.
+      </p>
+
+      <p class="source">
+        Source: Animal Medicines Australia,
+        Pets in Australia 2025, page 59
+        (PDF page 62).
+      </p>
+
+    </section>
+
+
+    <!-- SECTION 3: ANIMAL SHELTERS & ADOPTION -->
+    <section>
+
+      <h2>Section 3: Animal Shelters &amp; Adoption</h2>
+
+      <p>
+        Animal shelters play an important role in caring
+        for animals that have been surrendered, rescued
+        or otherwise brought into care.
+
+        RSPCA Australia publishes annual statistics on
+        the animals received by its participating societies.
+        This section examines how reported animal numbers
+        have changed and what happens to animals in
+        RSPCA care.
+      </p>
+
+
+      <!-- Chart 5: Shelter Trends Heatmap -->
+      <div id="shelter-trends-chart"></div>
+
+      <p>
+        RSPCA statistics show that the total number of
+        animals received decreased from 103,057 in
+        2020–21 to 77,464 in 2024–25, a reduction of
+        approximately 24.8%.
+
+        The largest relative decline was observed among
+        cats, at 39.8%, followed by dogs at 28.9%.
+
+        In comparison, the number of other animals
+        decreased by approximately 5.8%.
+      </p>
+
+      <p>
+        These figures describe animals received by RSPCA
+        societies, not all animals in Australia.
+
+        Changes in reported numbers do not necessarily
+        indicate an improvement or deterioration in
+        overall animal welfare.
+      </p>
+
+      <p class="source">
+        Source: RSPCA Australia, National Statistics
+        2024–2025, Table 2, PDF page 5.
+
+        Note: Percentages are calculated relative to
+        the 2020–21 financial year. Other animals
+        includes animal categories other than
+        dogs and cats.
+      </p>
+
+
+      <!-- Chart 6: Shelter Outcomes Treemap -->
+      <div id="shelter-outcomes-chart"></div>
+
+      <p>
+        The 2024–25 RSPCA data reveal different outcomes
+        for dogs and cats.
+
+        Of the 15,852 dogs received, 6,839 (43.1%)
+        were rehomed, compared with 16,445 (64.1%)
+        of the 25,639 cats.
+
+        Dogs were more likely to be reclaimed by their
+        owners: 3,203 dogs (20.2%) versus 979 cats
+        (3.8%).
+
+        The treemap shows all seven reported outcomes
+        or statuses, including animals still in care
+        when the statistics were compiled.
+      </p>
+
+      <p>
+        Rectangle area represents the number of animals
+        in each reported outcome or status.
+
+        Cats and dogs form two larger groups, with their
+        outcomes shown as smaller rectangles.
+
+        These figures describe participating RSPCA
+        societies rather than all animal shelters
+        in Australia.
+      </p>
+
+      <p class="source">
+        Source: RSPCA Australia, National Statistics
+        2024–2025, Table 4, PDF page 7.
+
+        Note: Percentages are calculated as each
+        outcome divided by the corresponding number
+        of dogs or cats received.
+      </p>
+
+    </section>
+
+
+    <!-- SECTION 4: GEOGRAPHIC DIFFERENCES -->
+    <section>
+
+      <h2>Section 4: Geographic Differences</h2>
+
+      <p>
+        Animal shelter outcomes vary across Australian
+        states and territories.
+
+        This section explores geographic differences
+        in animal care using data reported by
+        participating RSPCA societies.
+
+        The first map compares the proportion of
+        dogs and cats rehomed relative to the number
+        received during the 2024–25 financial year.
+      </p>
+
+
+      <!-- Chart 7: Choropleth Map -->
+      <div id="state-rehoming-map"></div>
+
+      <p>
+        The Australian Capital Territory (ACT) had
+        the highest reported rehomed-to-received ratio
+        among the eight states and territories, at
+        approximately 68.9%.
+
+        In comparison, Western Australia (WA) had
+        the lowest ratio, at approximately 50.2%.
+
+        These differences highlight variation in
+        reported RSPCA shelter outcomes across
+        Australian regions.
+      </p>
+
+      <p>
+        These figures represent animals received and
+        rehomed by participating RSPCA societies.
+
+        They should not be interpreted as statewide
+        adoption rates or direct measures of animal
+        welfare, since reporting coverage and intake
+        responsibilities differ between societies.
+      </p>
+
+      <p class="source">
+        Source: RSPCA Australia, National Statistics
+        2024–2025, Table 4, PDF pages 7–8.
+
+        Note: Rehoming ratios are calculated by dividing
+        the combined number of dogs and cats rehomed
+        by the combined number of dogs and cats received
+        within each state or territory.
+
+        Geographic boundaries: Australian States
+        GeoJSON, rowanhogan/australian-states (GitHub).
+      </p>
+
+
+      <!-- Chart 8: Proportional Symbol Map -->
+      <div id="state-animals-map"></div>
+
+      <p>
+        The geographic distribution of animals received
+        by RSPCA societies also varies considerably.
+
+        Queensland reported the largest number of animals
+        received in 2024–25, with 43,041 animals, followed
+        by the Northern Territory with 12,410.
+
+        Queensland's total included 26,564 wildlife
+        animals, highlighting the importance of wildlife
+        care within its reported intake.
+      </p>
+
+      <p>
+        The circles are positioned approximately within
+        each state or territory, with their areas
+        proportional to the number of animals received.
+
+        These values reflect RSPCA reporting and service
+        coverage, rather than the total number of animals
+        needing care in each state. Larger circles do not
+        necessarily indicate poorer animal welfare.
+      </p>
+
+      <p class="source">
+        Source: RSPCA Australia, National Statistics
+        2024–2025, Table 4, PDF pages 7–8.
+
+        Note: Total animals received includes dogs, cats,
+        horses, livestock, wildlife and other animals.
+        Circle positions are representative locations
+        within each state or territory, not the
+        locations of individual RSPCA facilities.
+
+        Geographic boundaries: Australian States
+        GeoJSON, rowanhogan/australian-states (GitHub).
+      </p>
+
+    </section>
+
+  </main>
+
+  <!-- JavaScript -->
+  <script src="vega_lite_vis.js"></script>
+
+</body>
+</html>

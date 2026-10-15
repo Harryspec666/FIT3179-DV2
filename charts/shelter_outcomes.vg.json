@@ -1,0 +1,107 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "RSPCA dogs and cats shelter outcomes treemap (2024–25)",
+  "title": {
+    "text": "RSPCA Shelter Outcomes for Dogs and Cats (2024–25)",
+    "subtitle": "Rectangle area represents the number of animals"
+  },
+  "width": 820, "height": 425, "padding": 8,
+  "autosize": {"type": "fit", "contains": "padding", "resize": true},
+
+  "data": [
+    {
+      "name": "treemap",
+      "url": "data/shelter_outcomes.csv",
+      "format": {"type": "csv", "parse": {"count": "number"}},
+      "transform": [
+        {"type": "nest", "keys": ["animal_type"], "generate": true},
+        {
+          "type": "treemap", "field": "count", "method": "squarify",
+          "paddingInner": 3, "paddingOuter": 5, "paddingTop": 27,
+          "size": [{"signal": "width"}, {"signal": "height"}]
+        }
+      ]
+    },
+    {
+      "name": "leaves", "source": "treemap",
+      "transform": [{"type": "filter", "expr": "datum.depth === 2"}]
+    },
+    {
+      "name": "animals", "source": "treemap",
+      "transform": [{"type": "filter", "expr": "datum.depth === 1"}]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "colors", "type": "ordinal",
+      "domain": ["Rehomed", "Reclaimed", "Returned", "Currently in Care", "Transferred", "Euthanased", "Other"],
+      "range": ["#4F9785", "#4C78A8", "#6CA6C1", "#DEAD59", "#9183B8", "#CE7772", "#9BA7B4"]
+    }
+  ],
+
+  "legends": [
+    {
+      "fill": "colors", "title": "Reported Outcome / Status",
+      "orient": "bottom", "direction": "horizontal", "columns": 4,
+      "symbolType": "square", "labelFontSize": 11, "titleFontSize": 12
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "rect", "from": {"data": "animals"}, "interactive": false,
+      "encode": {"update": {
+        "x": {"field": "x0"}, "y": {"field": "y0"},
+        "x2": {"field": "x1"}, "y2": {"field": "y1"},
+        "fill": {"value": "#F1F5F9"}, "stroke": {"value": "#FFFFFF"}
+      }}
+    },
+    {
+      "type": "rect", "from": {"data": "leaves"},
+      "encode": {
+        "enter": {"stroke": {"value": "#FFFFFF"}, "strokeWidth": {"value": 2}},
+        "update": {
+          "x": {"field": "x0"}, "y": {"field": "y0"},
+          "x2": {"field": "x1"}, "y2": {"field": "y1"},
+          "fill": {"scale": "colors", "field": "outcome"},
+          "fillOpacity": {"value": 0.91},
+          "tooltip": {"signal": "{'Animal': datum.animal_type, 'Outcome': datum.outcome, 'Count': format(datum.count, ',')}"}
+        },
+        "hover": {"fillOpacity": {"value": 1}}
+      }
+    },
+    {
+      "type": "text", "from": {"data": "leaves"}, "interactive": false,
+      "encode": {"update": {
+        "x": {"signal": "(datum.x0 + datum.x1) / 2"},
+        "y": {"signal": "(datum.y0 + datum.y1) / 2 - 9"},
+        "align": {"value": "center"}, "baseline": {"value": "middle"},
+        "fontSize": {"value": 11}, "fontWeight": {"value": "bold"},
+        "fill": {"signal": "datum.outcome === 'Currently in Care' || datum.outcome === 'Other' ? '#253447' : 'white'"},
+        "text": {"signal": "datum.x1-datum.x0 > 90 && datum.y1-datum.y0 > 44 ? datum.outcome : ''"}
+      }}
+    },
+    {
+      "type": "text", "from": {"data": "leaves"}, "interactive": false,
+      "encode": {"update": {
+        "x": {"signal": "(datum.x0 + datum.x1) / 2"},
+        "y": {"signal": "(datum.y0 + datum.y1) / 2 + 9"},
+        "align": {"value": "center"}, "baseline": {"value": "middle"},
+        "fontSize": {"value": 11},
+        "fill": {"signal": "datum.outcome === 'Currently in Care' || datum.outcome === 'Other' ? '#253447' : 'white'"},
+        "text": {"signal": "datum.x1-datum.x0 > 90 && datum.y1-datum.y0 > 44 ? format(datum.count, ',') : ''"}
+      }}
+    },
+    {
+      "type": "text", "from": {"data": "animals"}, "interactive": false,
+      "encode": {"update": {
+        "x": {"signal": "datum.x0 + 9"},
+        "y": {"signal": "datum.y0 + 17"},
+        "fontSize": {"value": 14}, "fontWeight": {"value": "bold"},
+        "fill": {"value": "#253447"},
+        "text": {"signal": "datum.key === 'Dogs' ? 'Dogs (15,852)' : 'Cats (25,639)'"}
+      }}
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Pet Ownership in Australia (2016–2025)",
+    "subtitle": "Percentage of households owning at least one pet"
+  },
+
+  "width": "container",
+  "height": 300,
+
+  "data": {
+    "url": "data/pet_ownership.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+
+  "transform": [
+    {
+      "calculate": "datum.ownership_rate + '%'",
+      "as": "rate_label"
+    }
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Survey Year",
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+
+    "y": {
+      "field": "ownership_rate",
+      "type": "quantitative",
+      "title": "Households with Pets (%)",
+      "scale": {
+        "domain": [0, 100]
+      }
+    },
+
+    "tooltip": [
+      {
+        "field": "year",
+        "title": "Survey Year"
+      },
+      {
+        "field": "rate_label",
+        "type": "nominal",
+        "title": "Ownership Rate"
+      }
+    ]
+  },
+
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "point": {
+          "filled": true,
+          "size": 100
+        },
+        "strokeWidth": 3,
+        "color": "#4C78A8"
+      }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "dy": -15,
+        "fontSize": 13,
+        "fontWeight": "bold",
+        "color": "#253447"
+      },
+
+      "encoding": {
+        "text": {
+          "field": "rate_label",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    }
+  }
+}

@@ -1,0 +1,124 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "RSPCA Dog and Cat Rehoming by State (2024–25)",
+    "subtitle": "Rehomed animals as a percentage of dogs and cats received"
+  },
+
+  "width": "container",
+  "height": 440,
+
+  "projection": {
+    "type": "identity",
+    "reflectY": true
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+    "format": {
+      "type": "json",
+      "property": "features"
+    }
+  },
+
+  "transform": [
+    {
+      "calculate": "datum.properties.STATE_NAME",
+      "as": "state_name"
+    },
+    {
+      "calculate": "datum.state_name === 'New South Wales' ? 'NSW' : datum.state_name === 'Victoria' ? 'VIC' : datum.state_name === 'Queensland' ? 'QLD' : datum.state_name === 'South Australia' ? 'SA' : datum.state_name === 'Western Australia' ? 'WA' : datum.state_name === 'Tasmania' ? 'TAS' : datum.state_name === 'Northern Territory' ? 'NT' : datum.state_name === 'Australian Capital Territory' ? 'ACT' : null",
+      "as": "state"
+    },
+    {
+      "lookup": "state",
+      "from": {
+        "data": {
+          "url": "data/rspca_states.csv",
+          "format": {
+            "type": "csv"
+          }
+        },
+        "key": "state",
+        "fields": [
+          "dogs",
+          "cats",
+          "dogs_rehomed",
+          "cats_rehomed"
+        ]
+      }
+    },
+    {
+      "calculate": "toNumber(datum.dogs) + toNumber(datum.cats)",
+      "as": "received"
+    },
+    {
+      "calculate": "toNumber(datum.dogs_rehomed) + toNumber(datum.cats_rehomed)",
+      "as": "rehomed"
+    },
+    {
+      "calculate": "datum.received > 0 ? datum.rehomed / datum.received * 100 : null",
+      "as": "rehoming_share"
+    }
+  ],
+
+  "mark": {
+    "type": "geoshape",
+    "stroke": "white",
+    "strokeWidth": 1.5
+  },
+
+  "encoding": {
+    "color": {
+      "field": "rehoming_share",
+      "type": "quantitative",
+      "title": "Rehomed / Received (%)",
+      "scale": {
+        "domain": [45, 75],
+        "scheme": "blues"
+      },
+      "legend": {
+        "orient": "bottom",
+        "gradientLength": 220
+      }
+    },
+
+    "tooltip": [
+      {
+        "field": "state_name",
+        "type": "nominal",
+        "title": "State / Territory"
+      },
+      {
+        "field": "received",
+        "type": "quantitative",
+        "title": "Dogs + Cats Received",
+        "format": ",.0f"
+      },
+      {
+        "field": "rehomed",
+        "type": "quantitative",
+        "title": "Dogs + Cats Rehomed",
+        "format": ",.0f"
+      },
+      {
+        "field": "rehoming_share",
+        "type": "quantitative",
+        "title": "Rehomed / Received (%)",
+        "format": ".1f"
+      }
+    ]
+  },
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "labelFontSize": 12,
+      "titleFontSize": 12
+    }
+  }
+}

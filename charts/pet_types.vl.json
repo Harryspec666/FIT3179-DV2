@@ -1,0 +1,98 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Most Popular Pet Types in Australia (2025)",
+    "subtitle": "Percentage of Australian households owning each pet type"
+  },
+
+  "width": "container",
+  "height": 300,
+
+  "data": {
+    "url": "data/pet_types.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+
+  "transform": [
+    {
+      "calculate": "format(datum.household_rate, '.1f') + '%'",
+      "as": "rate_label"
+    }
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "household_rate",
+      "type": "quantitative",
+      "title": "Households Owning Each Pet Type (%)",
+      "scale": {
+        "domain": [0, 60]
+      },
+      "axis":{
+        "values": [0, 10, 20, 30, 40, 50, 60]
+      }
+    },
+
+    "y": {
+      "field": "pet_type",
+      "type": "nominal",
+      "sort": "-x",
+      "title": null
+    },
+
+    "tooltip": [
+      {
+        "field": "pet_type",
+        "title": "Pet Type"
+      },
+      {
+        "field": "household_rate",
+        "type": "quantitative",
+        "title": "Household Ownership (%)",
+        "format": ".1f"
+      },
+      {
+        "field": "estimated_pets_thousands",
+        "type": "quantitative",
+        "title": "Estimated Pets (thousands)",
+        "format": ",.1f"
+      }
+    ]
+  },
+
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#4C78A8"
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#253447"
+      },
+      "encoding": {
+        "text": {
+          "field": "rate_label",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    }
+  }
+}

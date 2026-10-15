@@ -1,0 +1,108 @@
+
+/* General page style */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fb;
+    color: #253447;
+}
+
+/* Header */
+header {
+    background-color: #dcebf3;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+header h1 {
+    font-size: 34px;
+    margin-bottom: 12px;
+}
+
+header p {
+    font-size: 17px;
+}
+
+/* Main content */
+main {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Section */
+section {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+/* Vega-Lite Chart */
+#pet-ownership-chart {
+    width: 100%;
+    margin-top: 30px;
+}
+
+/* Source information */
+.source {
+    font-size: 12px;
+    color: #666666;
+    margin-top: 20px;
+}
+
+
+/* Spacing between visualisations */
+#pet-types-chart {
+    width: 100%;
+    margin-top: 65px;
+}
+
+
+/* Chart 3: Pet Expenditure */
+#pet-expenditure-chart {
+    width: 100%;
+    margin-top: 30px;
+}
+
+/* Spacing between sections */
+section + section {
+    margin-top: 35px;
+}
+
+
+/* Chart 4: Pet Vaccination */
+#pet-vaccination-chart {
+    width: 100%;
+    margin-top: 65px;
+}
+
+
+/* Chart 5: RSPCA Shelter Trends Heatmap */
+#shelter-trends-chart {
+    width: 100%;
+    margin-top: 35px;
+    margin-bottom: 30px;
+}
+
+/* Chart 6: RSPCA Shelter Outcomes Treemap */
+#shelter-outcomes-chart {
+    width: 100%;
+    margin-top: 45px;
+    margin-bottom: 30px;
+}
+
+/* Chart 7: Geographic choropleth */
+#state-rehoming-map {
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 25px;
+}
+
+
+/* Chart 8: Proportional Symbol Map */
+#state-animals-map {
+    width: 100%;
+    margin-top: 55px;
+    margin-bottom: 35px;
+}
