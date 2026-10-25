@@ -1,0 +1,151 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Comparison of dogs and cats received by RSPCA societies across Australian states and territories in 2024-25.",
+  "width": 690,
+  "height": 430,
+  "background": "white",
+
+  "title": {
+    "text": "Dogs vs Cats Received Across Australian States (2024–25)",
+    "subtitle": "Each point represents one state or territory",
+    "fontSize": 16,
+    "subtitleFontSize": 12,
+    "anchor": "start",
+    "offset": 15
+  },
+
+  "data": {
+    "url": "data/rspca_states.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "dogs": "number",
+        "cats": "number"
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {"dogs": 0, "cats": 0},
+          {"dogs": 9000, "cats": 9000}
+        ]
+      },
+      "mark": {
+        "type": "line",
+        "stroke": "#999999",
+        "strokeDash": [6, 5],
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "dogs",
+          "type": "quantitative",
+          "scale": {"domain": [0, 9000]},
+          "axis": {
+            "title": "Dogs Received",
+            "grid": true,
+            "tickCount": 6
+          }
+        },
+        "y": {
+          "field": "cats",
+          "type": "quantitative",
+          "scale": {"domain": [0, 9000]},
+          "axis": {
+            "title": "Cats Received",
+            "grid": true,
+            "tickCount": 6
+          }
+        }
+      }
+    },
+
+    {
+      "mark": {
+        "type": "circle",
+        "size": 180,
+        "opacity": 0.9,
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "dogs",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "cats",
+          "type": "quantitative"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.cats > datum.dogs",
+            "value": "#548FBF"
+          },
+          "value": "#E4A45A"
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State / Territory"
+          },
+          {
+            "field": "dogs",
+            "type": "quantitative",
+            "title": "Dogs Received",
+            "format": ",d"
+          },
+          {
+            "field": "cats",
+            "type": "quantitative",
+            "title": "Cats Received",
+            "format": ",d"
+          }
+        ]
+      }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 12,
+        "dy": -10,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#253447"
+      },
+      "encoding": {
+        "x": {
+          "field": "dogs",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "cats",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "state",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "gridColor": "#E6E6E6"
+    }
+  }
+}

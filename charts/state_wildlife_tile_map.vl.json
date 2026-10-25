@@ -1,0 +1,150 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Ranked lollipop chart of wildlife share among RSPCA animals received by state or territory",
+  "width": 650,
+  "height": 350,
+  "background": "white",
+  "title": {
+    "text": "Wildlife Share of RSPCA Animals Received (2024\u201325)",
+    "subtitle": "Percentage of animals received classified as wildlife",
+    "fontSize": 17,
+    "subtitleFontSize": 12,
+    "anchor": "start"
+  },
+  "data": {
+    "url": "data/rspca_states.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "wildlife": "number",
+        "total_animals": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum.total_animals > 0 && isValid(datum.wildlife) ? datum.wildlife / datum.total_animals * 100 : null",
+      "as": "wildlife_pct"
+    },
+    {
+      "filter": "isValid(datum.wildlife_pct)"
+    },
+    {
+      "calculate": "format(datum.wildlife_pct, \".1f\") + \"%\"",
+      "as": "pct_label"
+    },
+    {
+      "calculate": "datum.state == \"QLD\" ? \"Queensland\" : \"Other states\"",
+      "as": "highlight"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "sort": {
+        "field": "wildlife_pct",
+        "order": "descending"
+      },
+      "title": null,
+      "axis": {
+        "labelFontSize": 13,
+        "labelPadding": 12
+      }
+    },
+    "x": {
+      "field": "wildlife_pct",
+      "type": "quantitative",
+      "title": "Wildlife Share (%)",
+      "scale": {
+        "domain": [
+          0,
+          70
+        ]
+      },
+      "axis": {
+        "grid": true,
+        "tickCount": 8,
+        "labelFontSize": 12,
+        "titleFontSize": 13
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "x2": {
+          "datum": 0
+        },
+        "color": {
+          "value": "#a9c4d9"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 170
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "datum.state == \"QLD\"",
+            "value": "#2166a5"
+          },
+          "value": "#6ca6c9"
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State / Territory"
+          },
+          {
+            "field": "wildlife",
+            "type": "quantitative",
+            "title": "Wildlife Received",
+            "format": ",d"
+          },
+          {
+            "field": "total_animals",
+            "type": "quantitative",
+            "title": "Total Animals Received",
+            "format": ",d"
+          },
+          {
+            "field": "wildlife_pct",
+            "type": "quantitative",
+            "title": "Wildlife Share (%)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 12,
+        "fontSize": 12,
+        "color": "#253447"
+      },
+      "encoding": {
+        "text": {
+          "field": "pct_label",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "background": "white"
+  }
+}

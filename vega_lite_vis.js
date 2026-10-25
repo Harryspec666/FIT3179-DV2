@@ -73,3 +73,42 @@ vegaEmbed("#state-animals-map", chart8)
     console.log("Chart 8 loaded successfully!");
   })
   .catch(console.error);
+
+
+// Chart 9: Wildlife Share Lollipop Chart
+vegaEmbed(
+    "#state-wildlife-tile-map",
+    "charts/state_wildlife_tile_map.vl.json",
+    { actions: false }
+).catch(console.error);
+
+
+// Chart 10: Dogs vs Cats Scatter Plot
+var chart10 = "charts/dog_cat_scatter.vl.json";
+
+vegaEmbed("#dog-cat-scatter", chart10, { actions: false })
+  .then(function(result) {
+    console.log("Chart 10 loaded successfully!");
+  })
+  .catch(function(error) {
+    console.error("Chart 10 failed to load:", error);
+  });
+
+
+
+  
+
+  
+// Chart 11: Dogs vs Cats Length Symbol Map (Vega)
+vegaEmbed(
+    "#state-dogs-cats-length-map",
+    "charts/state_dogs_cats_length_map.vg.json",
+    { actions: false }
+)
+.then(function() {
+    console.log("Chart 11 loaded successfully!");
+})
+.catch(function(error) {
+    console.error("Chart 11 failed to load:", error);
+});
+

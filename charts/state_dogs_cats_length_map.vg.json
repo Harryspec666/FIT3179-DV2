@@ -1,0 +1,209 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "Length Symbol Map comparing dogs and cats received by RSPCA societies across Australian states.",
+  "width": 780,
+  "height": 530,
+  "padding": 5,
+  "autosize": "none",
+  "background": "white",
+  "title": {
+    "text": "Dogs vs Cats Received by State (2024–25)",
+    "subtitle": "Bar height represents the number of animals received by RSPCA societies",
+    "anchor": "middle",
+    "fontSize": 17,
+    "subtitleFontSize": 12,
+    "offset": 18
+  },
+  "data": [
+    {
+      "name": "states",
+      "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+      "format": {
+        "type": "json",
+        "property": "features"
+      }
+    },
+    {
+      "name": "counts",
+      "url": "data/rspca_states.csv",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "dogs": "number",
+          "cats": "number"
+        }
+      }
+    },
+    {
+      "name": "locations",
+      "values": [
+        {"state": "WA", "lon": 122.5, "lat": -26},
+        {"state": "NT", "lon": 133.5, "lat": -20},
+        {"state": "SA", "lon": 135.5, "lat": -31},
+        {"state": "QLD", "lon": 146, "lat": -24},
+        {"state": "NSW", "lon": 148, "lat": -33},
+        {"state": "ACT", "lon": 153, "lat": -35},
+        {"state": "VIC", "lon": 144.5, "lat": -38},
+        {"state": "TAS", "lon": 147, "lat": -43}
+      ],
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "counts",
+          "key": "state",
+          "fields": ["state"],
+          "values": ["dogs", "cats"],
+          "as": ["dogs", "cats"]
+        },
+        {
+          "type": "geopoint",
+          "projection": "australia",
+          "fields": ["lon", "lat"],
+          "as": ["x", "y"]
+        }
+      ]
+    }
+  ],
+  "projections": [
+    {
+      "name": "australia",
+      "type": "mercator",
+      "center": [134, -27],
+      "scale": 640,
+      "translate": [390, 255]
+    }
+  ],
+  "marks": [
+    {
+      "type": "shape",
+      "from": {"data": "states"},
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "australia"
+        }
+      ],
+      "encode": {
+        "enter": {
+          "fill": {"value": "transparent"},
+          "fillOpacity": {"value": 0},
+          "stroke": {"value": "#607D8B"},
+          "strokeOpacity": {"value": 1},
+          "strokeWidth": {"value": 1.5}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "from": {"data": "locations"},
+      "encode": {
+        "enter": {
+          "x": {"signal": "datum.x - 13"},
+          "width": {"value": 11},
+          "y": {"signal": "datum.y - datum.dogs * 0.013"},
+          "y2": {"field": "y"},
+          "fill": {"value": "#347EAD"},
+          "stroke": {"value": "white"},
+          "strokeWidth": {"value": 0.5},
+          "tooltip": {
+            "signal": "{'State': datum.state, 'Animal': 'Dogs', 'Received': datum.dogs}"
+          }
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "from": {"data": "locations"},
+      "encode": {
+        "enter": {
+          "x": {"signal": "datum.x + 2"},
+          "width": {"value": 11},
+          "y": {"signal": "datum.y - datum.cats * 0.013"},
+          "y2": {"field": "y"},
+          "fill": {"value": "#E69C49"},
+          "stroke": {"value": "white"},
+          "strokeWidth": {"value": 0.5},
+          "tooltip": {
+            "signal": "{'State': datum.state, 'Animal': 'Cats', 'Received': datum.cats}"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {"data": "locations"},
+      "encode": {
+        "enter": {
+          "x": {"field": "x"},
+          "y": {"signal": "datum.y + 18"},
+          "text": {"field": "state"},
+          "align": {"value": "center"},
+          "fontSize": {"value": 12},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#253447"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"value": 25},
+          "y": {"value": 22},
+          "width": {"value": 14},
+          "height": {"value": 14},
+          "fill": {"value": "#347EAD"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 47},
+          "y": {"value": 33},
+          "text": {"value": "Dogs"},
+          "fontSize": {"value": 12},
+          "fill": {"value": "#253447"}
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "encode": {
+        "enter": {
+          "x": {"value": 110},
+          "y": {"value": 22},
+          "width": {"value": 14},
+          "height": {"value": 14},
+          "fill": {"value": "#E69C49"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 132},
+          "y": {"value": 33},
+          "text": {"value": "Cats"},
+          "fontSize": {"value": 12},
+          "fill": {"value": "#253447"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"value": 25},
+          "y": {"value": 55},
+          "text": {"value": "Bar scale: 1,000 animals = 13 px"},
+          "fontSize": {"value": 11},
+          "fill": {"value": "#666666"}
+        }
+      }
+    }
+  ]
+}

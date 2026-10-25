@@ -106,3 +106,32 @@ section + section {
     margin-top: 55px;
     margin-bottom: 35px;
 }
+
+
+/* Chart 9: Wildlife Share Lollipop Chart */
+#state-wildlife-tile-map {
+    width: 100%;
+    margin-top: 45px;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+
+/* Chart 10: Dogs vs Cats Scatter Plot */
+#dog-cat-scatter {
+    width: 100%;
+    margin-top: 55px;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+
+
+/* Chart 11: Length Symbol Map */
+#state-dogs-cats-length-map {
+    width: 100%;
+    margin-top: 55px;
+    margin-bottom: 35px;
+    text-align: center;
+    overflow: hidden;
+}

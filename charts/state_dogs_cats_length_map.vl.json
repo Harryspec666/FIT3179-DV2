@@ -1,0 +1,203 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Length Symbol Map showing dogs and cats received across Australian states.",
+  "title": {
+    "text": "Dogs vs Cats Received by State (2024–25)",
+    "subtitle": "Blue = Dogs  |  Orange = Cats  |  Longer symbols indicate more animals",
+    "fontSize": 16,
+    "subtitleFontSize": 12,
+    "anchor": "middle",
+    "offset": 15
+  },
+  "width": "container",
+  "height": 440,
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "projection": {
+        "type": "identity",
+        "reflectY": true
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#E8EDF2",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 1.5
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"state": "WA", "lon": 122.5, "lat": -25.5},
+          {"state": "NT", "lon": 133.6, "lat": -19.8},
+          {"state": "SA", "lon": 135.6, "lat": -30.5},
+          {"state": "QLD", "lon": 144.5, "lat": -22.8},
+          {"state": "NSW", "lon": 146.4, "lat": -32.0},
+          {"state": "VIC", "lon": 144.2, "lat": -37.4},
+          {"state": "TAS", "lon": 146.5, "lat": -42.2},
+          {"state": "ACT", "lon": 151.8, "lat": -34.5}
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/rspca_states.csv",
+              "format": {"type": "csv"}
+            },
+            "key": "state",
+            "fields": ["dogs", "cats"]
+          }
+        },
+        {
+          "calculate": "toNumber(datum.dogs)",
+          "as": "dogs_count"
+        },
+        {
+          "calculate": "toNumber(datum.cats)",
+          "as": "cats_count"
+        },
+        {
+          "calculate": "datum.lon - 0.65",
+          "as": "dog_lon"
+        },
+        {
+          "calculate": "datum.lon + 0.65",
+          "as": "cat_lon"
+        },
+        {
+          "calculate": "datum.lat + datum.dogs_count * 0.0007",
+          "as": "dog_top"
+        },
+        {
+          "calculate": "datum.lat + datum.cats_count * 0.0007",
+          "as": "cat_top"
+        }
+      ],
+      "layer": [
+        {
+          "projection": {
+            "type": "identity",
+            "reflectY": true
+          },
+          "mark": {
+            "type": "rule",
+            "color": "#287FB6",
+            "strokeWidth": 10,
+            "strokeCap": "butt"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "dog_lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "latitude2": {
+              "field": "dog_top"
+            },
+            "tooltip": [
+              {
+                "field": "state",
+                "title": "State / Territory"
+              },
+              {
+                "value": "Dogs",
+                "title": "Animal Type"
+              },
+              {
+                "field": "dogs_count",
+                "type": "quantitative",
+                "title": "Dogs Received",
+                "format": ",.0f"
+              }
+            ]
+          }
+        },
+        {
+          "projection": {
+            "type": "identity",
+            "reflectY": true
+          },
+          "mark": {
+            "type": "rule",
+            "color": "#E69C49",
+            "strokeWidth": 10,
+            "strokeCap": "butt"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "cat_lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "latitude2": {
+              "field": "cat_top"
+            },
+            "tooltip": [
+              {
+                "field": "state",
+                "title": "State / Territory"
+              },
+              {
+                "value": "Cats",
+                "title": "Animal Type"
+              },
+              {
+                "field": "cats_count",
+                "type": "quantitative",
+                "title": "Cats Received",
+                "format": ",.0f"
+              }
+            ]
+          }
+        },
+        {
+          "projection": {
+            "type": "identity",
+            "reflectY": true
+          },
+          "mark": {
+            "type": "text",
+            "dy": 17,
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#253447"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "state",
+              "type": "nominal"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}
